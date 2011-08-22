@@ -5,7 +5,16 @@ if [ -z "$LEDGER_FILE" ]; then
 fi
 cd "$(dirname "$LEDGER_FILE")"
 output="$(ledger entry "$@")"
+ledger_result=$?
+if [ -z "$output" ]; then
+  echo "ERROR: ledger output is empty"
+  exit 1
+fi
 echo "$output"; echo
+if [ $ledger_result -ne 0 ]; then
+  echo "ERROR: running ledger failed"
+  exit 1
+fi
 read -p "good? [y] " answer
 if [ -z "$answer" ] || [ "$answer" == "y" ]; then
   (echo; echo "$output") >> "$LEDGER_FILE"
