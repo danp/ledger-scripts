@@ -1,0 +1,9 @@
+#!/bin/sh
+if [ -z "$LEDGER_FILE" ]; then
+  echo "ERROR: \$LEDGER_FILE not set"
+  exit 1
+fi
+cd "$(dirname "$LEDGER_FILE")"
+ledger-tidy
+git commit -a -m "sync"
+git push origin master

@@ -1,0 +1,7 @@
+#!/bin/sh
+if [ -z "$LEDGER_FILE" ]; then
+  echo "ERROR: \$LEDGER_FILE not set"
+  exit 1
+fi
+cd "$(dirname "$LEDGER_FILE")"
+ledger print --sort d > "$LEDGER_FILE.new" && mv "$LEDGER_FILE.new" "$LEDGER_FILE"
