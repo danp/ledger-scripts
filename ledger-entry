@@ -1,0 +1,14 @@
+#!/bin/sh
+if [ -z "$LEDGER_FILE" ]; then
+  echo "ERROR: \$LEDGER_FILE not set"
+  exit 1
+fi
+cd "$(dirname "$LEDGER_FILE")"
+output="$(ledger entry "$@")"
+echo "$output"; echo
+read -p "good? [y] " answer
+if [ -z "$answer" ] || [ "$answer" == "y" ]; then
+  (echo; echo "$output") >> "$LEDGER_FILE"
+else
+  exit 1
+fi
